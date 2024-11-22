@@ -1,6 +1,15 @@
 const qrcode = require("qrcode-terminal");
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const storage = require("node-persist");
+const puppeteer = require("puppeteer-core");
+
+// Create a new client instance with LocalAuth and puppeteer configuration
+const client = new Client({
+  authStrategy: new LocalAuth(),
+  puppeteer: {
+    executablePath: '/usr/bin/chromium-browser', // Adjust path if necessary
+  },
+});
 
 async function initstorage() {
   try {
@@ -16,11 +25,6 @@ async function initstorage() {
     console.error("Error initializing storage:", error);
   }
 }
-
-// Create a new client instance with LocalAuth
-const client = new Client({
-  authStrategy: new LocalAuth(),
-});
 
 // Event listener for QR code generation
 client.on("qr", (qr) => {
@@ -74,22 +78,22 @@ async function sendMessage(to) {
   try {
     await client.sendMessage(
       to,
-      `welcome to URBANZI,\n
-"\x1b[1mWe are the best in what we do\x1b[0m"\n
-I am URBANZI'S Personal chat assistant.\n
----------------------------------------\n
-OUR SERVICES,\n
-🔷 WEB DEVELOPMENT\n
-🔷 MOBILE APPLICATION\n
-🔷 BRANDING\n
-🔷 SOFTWARE DEVELOPMENT\n
-🔷 SEO SUPPORT\n
-🔷 UI/UX DEVELOPMENT\n
-🔷 DIGITAL MARKETING\n
-🔷 GRAPHICS AND DESIGN\n
-🔷 CHAT BOT\n
-🔷 LEAD GENERATION\n
-🔷 BUSINESS SOLUTIONS\n
+      `*welcome to URBANZI*\n
+"We are the best in what we do"
+I am URBANZI'S Personal chat assistant.
+---------------------------------------
+*OUR SERVICES*:\n
+🔷 WEB DEVELOPMENT
+🔷 MOBILE APPLICATION
+🔷 BRANDING
+🔷 SOFTWARE DEVELOPMENT
+🔷 SEO SUPPORT
+🔷 UI/UX DEVELOPMENT
+🔷 DIGITAL MARKETING
+🔷 GRAPHICS AND DESIGN
+🔷 CHAT BOT
+🔷 LEAD GENERATION
+🔷 BUSINESS SOLUTIONS
 ---------------------------------------`
     );
     console.log("Greeting message sent");
